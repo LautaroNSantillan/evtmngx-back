@@ -42,4 +42,9 @@ public class XUser {
         this.role = role;
     }
 
+    public void likeEvent(XEvent event){
+        event.addLike(this);
+        likedEvents.add(event);
+    }
+
 }

@@ -36,6 +36,11 @@ public class EvtmngxApplication {
 			xEventRepository.save(event);
 
 
+			attendee.likeEvent(event);
+			xAttendeeRepository.save(attendee);
+
+
+
 		};
 	}
 }

@@ -54,4 +54,8 @@ public class XEvent {
     public void addAttendee(XAttendee attendee){
         this.attendees.add(attendee);
     }
+
+    public void addLike(XUser user){
+        likedByUsers.add(user);
+    }
 }
