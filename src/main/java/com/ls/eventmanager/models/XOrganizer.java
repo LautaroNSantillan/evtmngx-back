@@ -1,6 +1,7 @@
 package com.ls.eventmanager.models;
 
 
+import com.ls.eventmanager.enums.XRoles;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +12,16 @@ import java.util.Set;
 
 @Getter@Setter@NoArgsConstructor
 @Entity
-@Table(name = "organizer")
 public class XOrganizer extends XUser{
-    private Set<XEvent> organizedEvents = new HashSet<>();
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
-    private Set<XEvent> events = new HashSet<>();
+    private Set<XEvent> organizedEvents = new HashSet<>();
 
+    public XOrganizer(String firstName, String lastName, String username, XRoles role) {
+        super(firstName, lastName, username, role);
+    }
+
+    public void organizeEvent(XEvent event){
+        event.setOrganizer(this);
+        organizedEvents.add(event);
+    }
 }

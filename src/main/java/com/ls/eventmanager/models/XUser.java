@@ -17,7 +17,6 @@ import java.util.UUID;
 @Getter@Setter@NoArgsConstructor@AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "user")
 public class XUser {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
@@ -25,8 +24,22 @@ public class XUser {
     private String firstName;
     private String lastName;
     private String username;
+    @Enumerated(EnumType.STRING)
     private XRoles role;
-    private LocalDate signupDate;
+    private LocalDate signupDate = LocalDate.now();
     @ManyToMany
+    @JoinTable(
+            name = "user_likes_event",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     private Set<XEvent> likedEvents = new HashSet<>();
+
+    public XUser(String firstName, String lastName, String username, XRoles role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.role = role;
+    }
+
 }
