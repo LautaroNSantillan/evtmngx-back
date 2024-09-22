@@ -32,9 +32,6 @@ public class XEvent {
     )
     private Set<XAttendee> attendees = new HashSet<>();
 
-    @ManyToMany(mappedBy = "likedEvents")
-    private Set<XUser> likedByUsers = new HashSet<>();
-
     public XEvent(String name, String description, EventLocation location,LocalDateTime date, XOrganizer organizer, Set<XAttendee> attendees) {
         this.name = name;
         this.description = description;
@@ -43,6 +40,9 @@ public class XEvent {
         this.organizer = organizer;
         this.attendees = attendees;
     }
+
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+    private XPost post;
 
     public XEvent(String name, LocalDateTime date, String description, EventLocation location) {
         this.name = name;
@@ -55,7 +55,5 @@ public class XEvent {
         this.attendees.add(attendee);
     }
 
-    public void addLike(XUser user){
-        likedByUsers.add(user);
-    }
+
 }

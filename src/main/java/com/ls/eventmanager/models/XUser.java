@@ -27,13 +27,12 @@ public class XUser {
     @Enumerated(EnumType.STRING)
     private XRoles role;
     private LocalDate signupDate = LocalDate.now();
-    @ManyToMany
-    @JoinTable(
-            name = "user_likes_event",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    private Set<XEvent> likedEvents = new HashSet<>();
+
+    @OneToMany(mappedBy = "author")
+    private Set<XComment> authoredComments = new HashSet<>();
+
+    @ManyToMany(mappedBy = "likedByUsers")
+    private Set<XPost> likedPosts = new HashSet<>();
 
     public XUser(String firstName, String lastName, String username, XRoles role) {
         this.firstName = firstName;
@@ -42,9 +41,14 @@ public class XUser {
         this.role = role;
     }
 
-    public void likeEvent(XEvent event){
-        event.addLike(this);
-        likedEvents.add(event);
+    public void likePost(XPost post){
+        post.addLike(this);
+        likedPosts.add(post);
+    }
+
+    public void makeComment(XComment comment, XPost post){
+        post.addComment(comment);
+        this.authoredComments.add(comment);
     }
 
 }

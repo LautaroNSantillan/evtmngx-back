@@ -3,10 +3,7 @@ package com.ls.eventmanager;
 import com.ls.eventmanager.enums.Country;
 import com.ls.eventmanager.enums.XRoles;
 import com.ls.eventmanager.models.*;
-import com.ls.eventmanager.repositories.XAttendeeRepository;
-import com.ls.eventmanager.repositories.XEventRepository;
-import com.ls.eventmanager.repositories.XOrganizerRepository;
-import com.ls.eventmanager.repositories.XUserRepository;
+import com.ls.eventmanager.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +19,12 @@ public class EvtmngxApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(XUserRepository xUserRepository, XAttendeeRepository xAttendeeRepository, XOrganizerRepository xOrganizerRepository, XEventRepository xEventRepository){
+	public CommandLineRunner initData(XUserRepository xUserRepository,
+									  XAttendeeRepository xAttendeeRepository,
+									  XOrganizerRepository xOrganizerRepository,
+									  XEventRepository xEventRepository,
+									  XCommentRepository xCommentRepository,
+									  XPostRepository xPostRepository){
 		return args ->{
 
 			XAttendee attendee = new XAttendee("attendee", "lastname","username1", XRoles.ATTENDEE);
@@ -35,8 +37,17 @@ public class EvtmngxApplication {
 			attendee.attendEvent(event);
 			xEventRepository.save(event);
 
+			XPost post = new XPost("content", event, organizer);
+			xPostRepository.save(post);
 
-			attendee.likeEvent(event);
+			XComment comment1 = new XComment("text",attendee, post);
+			xCommentRepository.save(comment1);
+			attendee.makeComment(comment1, post);
+
+			xCommentRepository.save(comment1);
+			xPostRepository.save(post);
+
+			attendee.likePost(post);
 			xAttendeeRepository.save(attendee);
 
 
