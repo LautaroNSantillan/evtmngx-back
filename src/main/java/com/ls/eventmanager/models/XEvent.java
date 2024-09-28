@@ -18,41 +18,28 @@ public class XEvent {
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
     private String name;
-    private LocalDateTime date;
     private String description;
-    @Embedded
-    private EventLocation location;
+    @OneToMany(mappedBy = "event")
+    private Set<XEventLocation> eventLocations = new HashSet<>();
     @ManyToOne
     private XOrganizer organizer;
-    @ManyToMany
-    @JoinTable(
-            name = "event_attendees",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "attendee_id")
-    )
-    private Set<XAttendee> attendees = new HashSet<>();
-
-    public XEvent(String name, String description, EventLocation location,LocalDateTime date, XOrganizer organizer, Set<XAttendee> attendees) {
-        this.name = name;
-        this.description = description;
-        this.date= date;
-        this.location = location;
-        this.organizer = organizer;
-        this.attendees = attendees;
-    }
-
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
     private XPost post;
 
-    public XEvent(String name, LocalDateTime date, String description, EventLocation location) {
+    public XEvent(String name, String description, XOrganizer organizer) {
         this.name = name;
-        this.date = date;
         this.description = description;
-        this.location = location;
+        this.organizer = organizer;
     }
 
-    public void addAttendee(XAttendee attendee){
-        this.attendees.add(attendee);
+    public XEvent(String name, LocalDateTime date, String description, XEventLocation location) {
+        this.name = name;
+        this.description = description;
+    }
+
+
+    public void addEventLocation(XEventLocation el){
+        this.getEventLocations().add(el);
     }
 
 

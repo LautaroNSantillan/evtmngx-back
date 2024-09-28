@@ -2,6 +2,7 @@ package com.ls.eventmanager;
 
 import com.ls.eventmanager.enums.Country;
 import com.ls.eventmanager.enums.XRoles;
+import com.ls.eventmanager.enums.XTime;
 import com.ls.eventmanager.models.*;
 import com.ls.eventmanager.repositories.*;
 import org.springframework.boot.CommandLineRunner;
@@ -10,12 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
-
+//Evtmngx
 @SpringBootApplication
-public class EvtmngxApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EvtmngxApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Bean
@@ -32,7 +33,7 @@ public class EvtmngxApplication {
 			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", XRoles.ORGANIZER) ;
 			xOrganizerRepository.save(organizer);
 
-			XEvent event = new XEvent("event", LocalDateTime.now(), "description", new EventLocation("line1", "line2", Country.AFGHANISTAN, "postal"));
+			XEvent event = new XEvent("event", LocalDateTime.now(), "description", new XEventLocation("line1", "line2", Country.AFGHANISTAN, "postal", 30, XTime.MORNING));
 			organizer.organizeEvent(event);
 			attendee.attendEvent(event);
 			xEventRepository.save(event);
