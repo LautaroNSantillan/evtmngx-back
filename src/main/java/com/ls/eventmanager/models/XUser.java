@@ -1,5 +1,6 @@
 package com.ls.eventmanager.models;
 
+import com.ls.eventmanager.dtos.DTOUser;
 import com.ls.eventmanager.enums.XRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,15 @@ public class XUser {
         this.lastName = lastName;
         this.username = username;
         this.role = role;
+    }
+
+    public XUser(DTOUser organizer) {
+    }
+
+    public XUser(String firstName, String lastName, String username) {
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.username=username;
     }
 
     public void likePost(XPost post){

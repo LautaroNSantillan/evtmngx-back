@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface XEventLocationRepository extends JpaRepository<UUID, XEventLocation> {
+public interface XEventLocationRepository extends JpaRepository<XEventLocation, UUID> {
 }

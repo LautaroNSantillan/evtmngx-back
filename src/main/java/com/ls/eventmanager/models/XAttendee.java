@@ -17,13 +17,13 @@ import java.util.UUID;
 @Entity
 public class XAttendee extends XUser{
     @ManyToMany(mappedBy = "attendees")
-    private Set<XEvent> attendedEvents = new HashSet<>();
+    private Set<XEventLocation> attendedEvents = new HashSet<>();
 
     public XAttendee(String firstName, String lastName, String username, XRoles role) {
         super(firstName, lastName, username, role);
     }
 
-    public void attendEvent(XEvent event){
+    public void attendEvent(XEventLocation event){
         event.addAttendee(this);
         this.getAttendedEvents().add(event);
     }

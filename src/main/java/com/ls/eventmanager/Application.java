@@ -28,28 +28,28 @@ public class Application {
 									  XPostRepository xPostRepository){
 		return args ->{
 
-			XAttendee attendee = new XAttendee("attendee", "lastname","username1", XRoles.ATTENDEE);
-			xAttendeeRepository.save(attendee);
-			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", XRoles.ORGANIZER) ;
-			xOrganizerRepository.save(organizer);
-
-			XEvent event = new XEvent("event", LocalDateTime.now(), "description", new XEventLocation("line1", "line2", Country.AFGHANISTAN, "postal", 30, XTime.MORNING));
-			organizer.organizeEvent(event);
-			attendee.attendEvent(event);
-			xEventRepository.save(event);
-
-			XPost post = new XPost("content", event, organizer);
-			xPostRepository.save(post);
-
-			XComment comment1 = new XComment("text",attendee, post);
-			xCommentRepository.save(comment1);
-			attendee.makeComment(comment1, post);
-
-			xCommentRepository.save(comment1);
-			xPostRepository.save(post);
-
-			attendee.likePost(post);
-			xAttendeeRepository.save(attendee);
+//			XAttendee attendee = new XAttendee("attendee", "lastname","username1", XRoles.ATTENDEE);
+//			xAttendeeRepository.save(attendee);
+//			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", XRoles.ORGANIZER) ;
+//			xOrganizerRepository.save(organizer);
+//
+//			XEvent event = new XEvent("event", LocalDateTime.now(), "description", new XEventLocation("line1", "line2", Country.AFGHANISTAN, "postal", 30, XTime.MORNING));
+//			organizer.organizeEvent(event);
+//			attendee.attendEvent(event);
+//			xEventRepository.save(event);
+//
+//			XPost post = new XPost("content", event, organizer);
+//			xPostRepository.save(post);
+//
+//			XComment comment1 = new XComment("text",attendee, post);
+//			xCommentRepository.save(comment1);
+//			attendee.makeComment(comment1, post);
+//
+//			xCommentRepository.save(comment1);
+//			xPostRepository.save(post);
+//
+//			attendee.likePost(post);
+//			xAttendeeRepository.save(attendee);
 
 
 

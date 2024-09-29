@@ -34,7 +34,10 @@ public class XLocation {
         this.postal = postal;
         this.capacity = capacity;
     }
-    
+
+    public XLocation(String name, String line1, String line2, Country country, String postal, Integer capacity) {
+    }
+
     public void addEventLocation(XEventLocation el){
         this.eventLocations.add(el);
     }

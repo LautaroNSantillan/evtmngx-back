@@ -20,6 +20,14 @@ public class XOrganizer extends XUser{
         super(firstName, lastName, username, role);
     }
 
+
+    public XOrganizer(XUser user) {
+        super(user.getFirstName(), user.getLastName(), user.getUsername(), user.getRole());
+    }
+
+    public XOrganizer(String firstName, String lastName, String username) {
+    }
+
     public void organizeEvent(XEvent event){
         event.setOrganizer(this);
         organizedEvents.add(event);

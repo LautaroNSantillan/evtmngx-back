@@ -1,5 +1,6 @@
 package com.ls.eventmanager.models;
 
+import com.ls.eventmanager.dtos.DTOOrganizer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,9 +33,13 @@ public class XEvent {
         this.organizer = organizer;
     }
 
-    public XEvent(String name, LocalDateTime date, String description, XEventLocation location) {
+    public XEvent(String name, String description, XEventLocation location) {
         this.name = name;
         this.description = description;
+        this.addEventLocation(location);
+    }
+
+    public XEvent(String name, String description, XLocation newLocation, XOrganizer xOrganizer) {
     }
 
 

@@ -4,7 +4,9 @@ import com.ls.eventmanager.enums.Country;
 import com.ls.eventmanager.enums.XTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter@Setter
 @AllArgsConstructor@NoArgsConstructor
 @Entity
 public class XEventLocation {
@@ -19,10 +22,8 @@ public class XEventLocation {
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
     @ManyToOne
-    @JoinColumn(name = "event_id")
     private XEvent event;
     @ManyToOne
-    @JoinColumn(name = "location_id")
     private XLocation location;
     private LocalDate date;
     @Enumerated(EnumType.STRING)
@@ -39,13 +40,15 @@ public class XEventLocation {
         this.event=event;
         event.addEventLocation(this);
     }
+
     public void addAttendee(XAttendee attendee){
-        this.attendees.add(attendee);
-        attendee.attendEvent(this.event);
+        this.getAttendees().add(attendee);
     }
 
     public void addLocation(XLocation location){
         this.location=location;
         location.addEventLocation(this);
     }
+
+
 }
