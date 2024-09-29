@@ -2,9 +2,7 @@ package com.ls.eventmanager.models;
 
 import com.ls.eventmanager.enums.Country;
 import com.ls.eventmanager.enums.XTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +19,7 @@ public class XLocation {
     private UUID id;
     private String line1;
     private String line2;
+    @Enumerated(EnumType.STRING)
     private Country country;
     private String postal;
     private Integer capacity;

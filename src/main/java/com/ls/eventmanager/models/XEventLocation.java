@@ -50,5 +50,10 @@ public class XEventLocation {
         location.addEventLocation(this);
     }
 
-
+    public XEventLocation(XEvent event, XLocation location, LocalDate date, XTime time) {
+        this.event = event;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+    }
 }

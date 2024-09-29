@@ -11,4 +11,7 @@ import java.util.UUID;
 public interface XUserRepository extends JpaRepository<XUser, UUID> {
     List<XUser> findByRole(XRoles role);
     Optional<XUser> findByIdAndRole(UUID id, XRoles role);
+    List<XUser> findByRoleNot(XRoles role);
+    Optional<XUser> findByIdAndRoleNot(UUID id, XRoles role);
+
 }
