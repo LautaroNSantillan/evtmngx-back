@@ -12,12 +12,13 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter@Setter
 @NoArgsConstructor@AllArgsConstructor
 public class DTOPost {
-    private Long id;
+    private UUID id;
     private String content;
     private DTOEvent event;
     private DTOUser author;

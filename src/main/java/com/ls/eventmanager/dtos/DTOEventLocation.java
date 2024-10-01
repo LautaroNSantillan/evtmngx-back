@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor@AllArgsConstructor
 public class DTOEventLocation {
     private UUID id;
-    private DTOEvent event;
     private DTOLocation location;
     private LocalDate date;
     private XTime time;
@@ -36,6 +35,5 @@ public class DTOEventLocation {
         this.attendees = eventLocation.getAttendees().stream()
                 .map(DTOUser::new)
                 .collect(Collectors.toSet());
-        this.event = new DTOEvent(eventLocation.getEvent());
     }
 }

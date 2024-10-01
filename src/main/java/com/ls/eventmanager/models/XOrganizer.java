@@ -20,7 +20,6 @@ public class XOrganizer extends XUser{
         super(firstName, lastName, username, role);
     }
 
-
     public XOrganizer(XUser user) {
         super(user.getFirstName(), user.getLastName(), user.getUsername(), user.getRole());
     }
