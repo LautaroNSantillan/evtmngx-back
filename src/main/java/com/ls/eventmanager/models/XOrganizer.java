@@ -16,8 +16,8 @@ public class XOrganizer extends XUser{
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
     private Set<XEvent> organizedEvents = new HashSet<>();
 
-    public XOrganizer(String firstName, String lastName, String username, XRoles role) {
-        super(firstName, lastName, username, role);
+    public XOrganizer(String firstName, String lastName, String username,String password, XRoles role) {
+        super(firstName, lastName, username,password, role);
     }
 
     public XOrganizer(XUser user) {

@@ -19,8 +19,8 @@ public class XAttendee extends XUser{
     @ManyToMany(mappedBy = "attendees")
     private Set<XEventLocation> attendedEvents = new HashSet<>();
 
-    public XAttendee(String firstName, String lastName, String username, XRoles role) {
-        super(firstName, lastName, username, role);
+    public XAttendee(String firstName, String lastName, String username,String password, XRoles role) {
+        super(firstName, lastName, username,password, role);
     }
 
     public void attendEvent(XEventLocation event){

@@ -13,5 +13,5 @@ public interface XUserRepository extends JpaRepository<XUser, UUID> {
     Optional<XUser> findByIdAndRole(UUID id, XRoles role);
     List<XUser> findByRoleNot(XRoles role);
     Optional<XUser> findByIdAndRoleNot(UUID id, XRoles role);
-
+    Optional<XUser> findByUsername(String username);
 }

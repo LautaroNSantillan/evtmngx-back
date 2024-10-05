@@ -5,10 +5,12 @@ import com.ls.eventmanager.enums.XRoles;
 import com.ls.eventmanager.enums.XTime;
 import com.ls.eventmanager.models.*;
 import com.ls.eventmanager.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +22,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Bean
 	public CommandLineRunner initData(XUserRepository xUserRepository,
 									  XAttendeeRepository xAttendeeRepository,
@@ -30,9 +35,9 @@ public class Application {
 									  XEventLocationRepository xEventLocationRepository){
 		return args ->{
 
-			XAttendee attendee = new XAttendee("attendee", "lastname","username1", XRoles.ATTENDEE);
+			XAttendee attendee = new XAttendee("attendee", "lastname","username1",passwordEncoder.encode("1234"), XRoles.ATTENDEE);
 			xAttendeeRepository.save(attendee);
-			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", XRoles.ORGANIZER) ;
+			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", passwordEncoder.encode("1234"),XRoles.ORGANIZER) ;
 			xOrganizerRepository.save(organizer);
 
 			XEvent event = new XEvent("event", "description", organizer);

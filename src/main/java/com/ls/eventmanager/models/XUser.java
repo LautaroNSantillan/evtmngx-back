@@ -25,6 +25,7 @@ public class XUser {
     private String firstName;
     private String lastName;
     private String username;
+    private String password;
     @Enumerated(EnumType.STRING)
     private XRoles role;
     private LocalDate signupDate = LocalDate.now();
@@ -35,6 +36,13 @@ public class XUser {
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<XPost> likedPosts = new HashSet<>();
 
+    public XUser(String firstName, String lastName, String username, String password, XRoles role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.role = role;
+        this.password=password;
+    }
     public XUser(String firstName, String lastName, String username, XRoles role) {
         this.firstName = firstName;
         this.lastName = lastName;
