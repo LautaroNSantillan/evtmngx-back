@@ -1,20 +1,16 @@
 package com.ls.eventmanager.dtos;
 
 import com.ls.eventmanager.enums.XRoles;
-import com.ls.eventmanager.models.XPost;
 import com.ls.eventmanager.models.XUser;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Getter@Setter
+@Data
+@Builder
 @NoArgsConstructor@AllArgsConstructor
 public class DTOUser {
     private UUID id;
@@ -23,16 +19,18 @@ public class DTOUser {
     private String username;
     private LocalDate signupDate;
     private Set<DTOComment> authoredComments;
+    private XRoles role;
 
     public DTOUser(XUser user) {
         this.id = user.getId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+        this.firstName = user.getFirstname();
+        this.lastName = user.getLastname();
         this.username = user.getUsername();
         this.signupDate = user.getSignupDate();
         this.authoredComments = user.getAuthoredComments().stream()
                 .map(DTOComment::new)
                 .collect(Collectors.toSet());
+        this.role = user.getRole();
     }
 
     public DTOUser(String firstName, String lastName, String username) {

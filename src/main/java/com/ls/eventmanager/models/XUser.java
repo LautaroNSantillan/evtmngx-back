@@ -3,10 +3,7 @@ package com.ls.eventmanager.models;
 import com.ls.eventmanager.dtos.DTOUser;
 import com.ls.eventmanager.enums.XRoles;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
@@ -15,15 +12,17 @@ import java.util.Set;
 import java.util.UUID;
 
 
-@Getter@Setter@NoArgsConstructor@AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor@AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class XUser {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -36,16 +35,16 @@ public class XUser {
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<XPost> likedPosts = new HashSet<>();
 
-    public XUser(String firstName, String lastName, String username, String password, XRoles role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public XUser(String firstname, String lastname, String username, String password, XRoles role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.role = role;
         this.password=password;
     }
-    public XUser(String firstName, String lastName, String username, XRoles role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public XUser(String firstname, String lastname, String username, XRoles role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.role = role;
     }
@@ -53,9 +52,9 @@ public class XUser {
     public XUser(DTOUser organizer) {
     }
 
-    public XUser(String firstName, String lastName, String username) {
-        this.firstName=firstName;
-        this.lastName=lastName;
+    public XUser(String firstname, String lastname, String username) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username=username;
     }
 

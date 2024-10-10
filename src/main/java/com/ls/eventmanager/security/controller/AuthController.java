@@ -2,7 +2,10 @@ package com.ls.eventmanager.security.controller;
 
 import com.ls.eventmanager.security.dtos.LoginRequest;
 import com.ls.eventmanager.security.dtos.LoginResponse;
+import com.ls.eventmanager.security.dtos.RegisterRequest;
 import com.ls.eventmanager.security.jwt.JwtUtils;
+import com.ls.eventmanager.security.service.impl.AuthServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,37 +26,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final AuthServiceImpl authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication;
-        try {
-            authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        } catch (AuthenticationException exception) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", "Bad credentials");
-            map.put("status", false);
-            return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        return authService.authenticateUser(loginRequest);
+    }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
-
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
-
-        return ResponseEntity.ok(response);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        return authService.register(registerRequest);
     }
 }
