@@ -10,7 +10,6 @@ import com.ls.eventmanager.security.dtos.RegisterRequest;
 import com.ls.eventmanager.security.jwt.JwtUtils;
 import com.ls.eventmanager.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +60,18 @@ public class AuthServiceImpl implements AuthService {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
+        XUser user = xUserRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        DTOUser loggedInUser = DTOUser.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .firstName(user.getFirstname())
+                .lastName(user.getLastname())
+                .signupDate(user.getSignupDate())
+                .role(user.getRole())
+                .build();
+
+        LoginResponse response = new LoginResponse(loggedInUser, jwtToken);
 
         return ResponseEntity.ok(response);
     }
@@ -76,7 +87,9 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         xUserRepository.save(user);
-        DTOUser createdUser = new DTOUser().builder()
+        XUser createdUser = xUserRepository.findByUsername(user.getUsername()).get();
+        DTOUser createdUserDTO = new DTOUser().builder()
+                .id(createdUser.getId())
                 .username(user.getUsername())
                 .firstName(user.getFirstname())
                 .lastName(user.getLastname())
@@ -84,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(user.getRole())
                 .build();
 
-        return ResponseEntity.ok(createdUser);
+        return ResponseEntity.ok(createdUserDTO);
     }
 
 }

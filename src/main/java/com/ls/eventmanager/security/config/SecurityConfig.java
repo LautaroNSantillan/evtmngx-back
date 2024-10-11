@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -20,8 +21,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -39,11 +44,20 @@ public class SecurityConfig {
         return new JwtAuthTokenFilter();
     }
 
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(httpSecurityCorsConfigurer ->
+                httpSecurityCorsConfigurer.configurationSource(request ->
+                        new CorsConfiguration().applyPermitDefaultValues()
+                )
+        );
+        http.csrf(csrf-> csrf.disable());
+
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests.requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/event/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated());
         http.sessionManagement(
@@ -58,7 +72,7 @@ public class SecurityConfig {
                         .sameOrigin()
                 )
         );
-        http.csrf(csrf -> csrf.disable());
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);

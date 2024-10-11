@@ -40,6 +40,23 @@ public class Application {
 			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", passwordEncoder.encode("1234"),XRoles.ORGANIZER) ;
 			xOrganizerRepository.save(organizer);
 
+			for (int i = 1; i <= 20; i++) {
+				String eventName = "Event " + i;
+				String eventDescription = "Description for event " + i;
+
+				XEvent randomEvent = new XEvent(eventName, eventDescription, organizer);
+				xEventRepository.save(randomEvent);
+				organizer.organizeEvent(randomEvent);
+
+				XLocation randomLocation = new XLocation("line1_" + i, "line2_" + i, getRandomCountry(), "pc" + (1234 + i), 30 + i);
+				xLocationRepository.save(randomLocation);
+
+				XEventLocation eventLocation = new XEventLocation(randomEvent, randomLocation, LocalDate.now().plusDays(i), getRandomTime());
+				xEventLocationRepository.save(eventLocation);
+
+				System.out.println("Created event: " + eventName + " at location: " + randomLocation.getLine1());
+			}
+
 			XEvent event = new XEvent("event", "description", organizer);
 			xEventRepository.save(event);
 			organizer.organizeEvent(event);
@@ -68,5 +85,15 @@ public class Application {
 			xPostRepository.save(post);
 
 		};
+
+	}
+	private Country getRandomCountry() {
+		Country[] countries = Country.values();
+		return countries[(int) (Math.random() * countries.length)];
+	}
+
+	private XTime getRandomTime() {
+		XTime[] times = XTime.values();
+		return times[(int) (Math.random() * times.length)];
 	}
 }
