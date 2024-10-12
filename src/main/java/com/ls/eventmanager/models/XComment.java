@@ -18,12 +18,12 @@ public class XComment {
     private XUser author;
 
     @ManyToOne
-    private XPost post;
+    private XEvent event;
 
-    public XComment(String text, XUser author, XPost post) {
+    public XComment(String text, XUser author, XEvent event) {
         this.text = text;
         this.author = author;
-        this.post = post;
+        this.event = event;
     }
 }
 

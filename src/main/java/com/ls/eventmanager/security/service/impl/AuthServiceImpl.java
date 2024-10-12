@@ -3,6 +3,7 @@ package com.ls.eventmanager.security.service.impl;
 import com.ls.eventmanager.dtos.DTOUser;
 import com.ls.eventmanager.enums.XRoles;
 import com.ls.eventmanager.models.XUser;
+import com.ls.eventmanager.repositories.XAttendeeRepository;
 import com.ls.eventmanager.repositories.XUserRepository;
 import com.ls.eventmanager.security.dtos.LoginRequest;
 import com.ls.eventmanager.security.dtos.LoginResponse;
@@ -65,8 +66,8 @@ public class AuthServiceImpl implements AuthService {
         DTOUser loggedInUser = DTOUser.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .firstName(user.getFirstname())
-                .lastName(user.getLastname())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
                 .signupDate(user.getSignupDate())
                 .role(user.getRole())
                 .build();
@@ -91,8 +92,8 @@ public class AuthServiceImpl implements AuthService {
         DTOUser createdUserDTO = new DTOUser().builder()
                 .id(createdUser.getId())
                 .username(user.getUsername())
-                .firstName(user.getFirstname())
-                .lastName(user.getLastname())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
                 .signupDate(user.getSignupDate())
                 .role(user.getRole())
                 .build();

@@ -11,5 +11,4 @@ import java.util.UUID;
 
 public interface XEventRepository extends JpaRepository<XEvent, UUID> {
     List<XEvent> findByNameContainingOrDescriptionContaining(String name, String description);
-
 }

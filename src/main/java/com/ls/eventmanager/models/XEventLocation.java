@@ -34,15 +34,18 @@ public class XEventLocation {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "attendee_id")
     )
-    private Set<XAttendee> attendees = new HashSet<>();
+    private Set<XUser> attendees = new HashSet<>();
 
     public void addEvent(XEvent event){
         this.event=event;
         event.addEventLocation(this);
     }
 
-    public void addAttendee(XAttendee attendee){
+    public void addAttendee(XUser attendee){
         this.getAttendees().add(attendee);
+    }
+    public void removeAttendee(XUser attendee){
+        this.getAttendees().remove(attendee);
     }
 
     public void addLocation(XLocation location){

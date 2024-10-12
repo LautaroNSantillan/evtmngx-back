@@ -24,8 +24,19 @@ public class XEvent {
     private Set<XEventLocation> eventLocations = new HashSet<>();
     @ManyToOne
     private XOrganizer organizer;
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
-    private XPost post;
+//    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+//    private XPost post;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private Set<XComment> comments = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_likes",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<XUser> likedByUsers = new HashSet<>();
 
     public XEvent(String name, String description, XOrganizer organizer) {
         this.name = name;
@@ -46,6 +57,11 @@ public class XEvent {
     public void addEventLocation(XEventLocation el){
         this.getEventLocations().add(el);
     }
+    public void addComment(XComment comment) {
+        comments.add(comment);
+    }
 
-
+    public void addLike(XUser user) {
+        likedByUsers.add(user);
+    }
 }

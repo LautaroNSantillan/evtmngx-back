@@ -2,9 +2,7 @@ package com.ls.eventmanager.models;
 
 import com.ls.eventmanager.enums.XRoles;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,15 +14,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 public class XAttendee extends XUser{
-    @ManyToMany(mappedBy = "attendees")
-    private Set<XEventLocation> attendedEvents = new HashSet<>();
 
     public XAttendee(String firstName, String lastName, String username,String password, XRoles role) {
         super(firstName, lastName, username,password, role);
     }
 
-    public void attendEvent(XEventLocation event){
-        event.addAttendee(this);
-        this.getAttendedEvents().add(event);
-    }
 }

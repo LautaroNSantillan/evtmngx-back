@@ -28,12 +28,13 @@ public class XUser {
     @Enumerated(EnumType.STRING)
     private XRoles role;
     private LocalDate signupDate = LocalDate.now();
-
+    @ManyToMany(mappedBy = "attendees")
+    private Set<XEventLocation> attendedEvents = new HashSet<>();
     @OneToMany(mappedBy = "author")
     private Set<XComment> authoredComments = new HashSet<>();
 
     @ManyToMany(mappedBy = "likedByUsers")
-    private Set<XPost> likedPosts = new HashSet<>();
+    private Set<XEvent> likedEvents = new HashSet<>();
 
     public XUser(String firstname, String lastname, String username, String password, XRoles role) {
         this.firstname = firstname;
@@ -58,14 +59,24 @@ public class XUser {
         this.username=username;
     }
 
-    public void likePost(XPost post){
-        post.addLike(this);
-        likedPosts.add(post);
+    public void likeEvent(XEvent event){
+        event.addLike(this);
+        likedEvents.add(event);
     }
 
-    public void makeComment(XComment comment, XPost post){
-        post.addComment(comment);
+    public void makeComment(XComment comment, XEvent event){
+        event.addComment(comment);
         this.authoredComments.add(comment);
+    }
+
+    public void attendEvent(XEventLocation event){
+        event.addAttendee(this);
+        this.getAttendedEvents().add(event);
+    }
+
+    public void unattendEvent(XEventLocation event){
+        event.removeAttendee(this);
+        this.getAttendedEvents().remove(event);
     }
 
 }

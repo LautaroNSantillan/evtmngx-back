@@ -1,9 +1,6 @@
 package com.ls.eventmanager.controllers;
 
-import com.ls.eventmanager.dtos.DTOOrganizer;
 import com.ls.eventmanager.dtos.DTOPost;
-import com.ls.eventmanager.models.XEventLocation;
-import com.ls.eventmanager.models.XOrganizer;
 import com.ls.eventmanager.models.XPost;
 import com.ls.eventmanager.repositories.XEventRepository;
 import com.ls.eventmanager.repositories.XPostRepository;
@@ -27,23 +24,23 @@ public class XPostController {
     private final XEventRepository xEventRepository;
     private final XPostRepository xPostRepository;
 
-    @GetMapping
-    public ResponseEntity<?> getAllPosts() {
-        Set<DTOPost> organizers = xPostRepository.findAll().stream()
-                .map(DTOPost::new)
-                .collect(Collectors.toSet());
-
-        return ResponseEntity.ok(organizers);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPost(@PathVariable UUID id){
-        Optional<XPost> post = xPostRepository.findById(id);
-        if (post.isPresent()) {
-            return ResponseEntity.ok(new DTOPost(post.get()));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
+//    @GetMapping
+//    public ResponseEntity<?> getAllPosts() {
+//        Set<DTOPost> organizers = xPostRepository.findAll().stream()
+//                .map(DTOPost::new)
+//                .collect(Collectors.toSet());
+//
+//        return ResponseEntity.ok(organizers);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getPost(@PathVariable UUID id){
+//        Optional<XPost> post = xPostRepository.findById(id);
+//        if (post.isPresent()) {
+//            return ResponseEntity.ok(new DTOPost(post.get()));
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//    }
 
 }

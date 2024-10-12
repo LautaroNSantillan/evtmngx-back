@@ -58,6 +58,8 @@ public class SecurityConfig {
                 authorizeRequests.requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/event/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/user/**").permitAll()
+
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated());
         http.sessionManagement(

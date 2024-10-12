@@ -1,33 +1,27 @@
 package com.ls.eventmanager.controllers;
 
 import com.ls.eventmanager.dtos.DTOEvent;
-import com.ls.eventmanager.models.XEvent;
-import com.ls.eventmanager.repositories.XEventRepository;
+import com.ls.eventmanager.dtos.DTOEventLocation;
+import com.ls.eventmanager.repositories.XEventLocationRepository;
 import com.ls.eventmanager.security.service.impl.XEventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/event")
 @RequiredArgsConstructor
 public class XEventController {
     private final XEventServiceImpl xEventService;
+    private final XEventLocationRepository xEventLocationRepository;
 
     @GetMapping("/all")
-    public ResponseEntity<Page<DTOEvent>> getAllContacts(@RequestParam(value="page",defaultValue="0") int page,
+    public ResponseEntity<Page<DTOEvent>> getAllEvents(@RequestParam(value="page",defaultValue="0") int page,
                                                          @RequestParam(value="size", defaultValue="10") int size) {
-        return ResponseEntity.ok(xEventService.getAllContacts(page, size));
+        return ResponseEntity.ok(xEventService.getAllEvents(page, size));
     }
 
     @GetMapping("/search")
@@ -42,4 +36,20 @@ public class XEventController {
             @RequestParam() boolean ascending) {
         return xEventService.sortedEvents(page, size, ascending);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DTOEvent> getEventById(@RequestParam UUID id){
+        return xEventService.getById(id);
+    }
+
+    @PostMapping("/attend")
+    public ResponseEntity<?> attendEvent(@RequestParam UUID attendeeId, @RequestParam UUID eventLocationId) {
+        return xEventService.attendEvent(attendeeId, eventLocationId);
+    }
+
+    @PostMapping("/unattend")
+    public ResponseEntity<?> unattendEvent(@RequestParam UUID attendeeId, @RequestParam UUID eventLocationId) {
+        return xEventService.unattendEvent(attendeeId, eventLocationId);
+    }
+
 }

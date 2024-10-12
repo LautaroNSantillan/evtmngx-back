@@ -70,19 +70,15 @@ public class Application {
 			xEventLocationRepository.save(eventLocation);
 			attendee.attendEvent(eventLocation);
 
-			XPost post = new XPost("content", event, organizer);
-			xPostRepository.save(post);
 
-			XComment comment1 = new XComment("text",attendee, post);
+			XComment comment1 = new XComment("text",attendee, event);
 			xCommentRepository.save(comment1);
-			attendee.makeComment(comment1, post);
+			attendee.makeComment(comment1, event);
 
 			xCommentRepository.save(comment1);
-			xPostRepository.save(post);
 
-			attendee.likePost(post);
+			attendee.likeEvent(event);
 			xAttendeeRepository.save(attendee);
-			xPostRepository.save(post);
 
 		};
 

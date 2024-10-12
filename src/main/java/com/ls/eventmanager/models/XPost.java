@@ -18,34 +18,31 @@ public class XPost {
     private UUID id;
 
     private String content;
-    @OneToOne
-    private XEvent event;
+//    @OneToOne
+//    private XEvent event;
 
     @ManyToOne
     private XUser author;
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<XUser> likedByUsers = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "post_likes",
+//            joinColumns = @JoinColumn(name = "post_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private Set<XUser> likedByUsers = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private Set<XComment> comments = new HashSet<>();
 
-    public XPost(String content, XEvent event, XUser author) {
+    public XPost(String content, XUser author) {
         this.content = content;
-        this.event = event;
         this.author = author;
     }
 
-    public void addLike(XUser user) {
-        likedByUsers.add(user);
-    }
+//    public void addLike(XUser user) {
+//        likedByUsers.add(user);
+//    }
 
-    public void addComment(XComment comment) {
-        comments.add(comment);
-    }
+//    public void addComment(XComment comment) {
+//        comments.add(comment);
+//    }
 }
