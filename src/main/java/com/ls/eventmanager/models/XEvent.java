@@ -1,5 +1,6 @@
 package com.ls.eventmanager.models;
 
+import com.ls.eventmanager.dtos.DTOOrganizer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,40 +19,49 @@ public class XEvent {
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
     private String name;
-    private LocalDateTime date;
     private String description;
-    @Embedded
-    private EventLocation location;
+    @OneToMany(mappedBy = "event")
+    private Set<XEventLocation> eventLocations = new HashSet<>();
     @ManyToOne
     private XOrganizer organizer;
+//    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+//    private XPost post;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private Set<XComment> comments = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
-            name = "event_attendees",
+            name = "event_likes",
             joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "attendee_id")
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<XAttendee> attendees = new HashSet<>();
-
-    @ManyToMany(mappedBy = "likedEvents")
     private Set<XUser> likedByUsers = new HashSet<>();
 
-    public XEvent(String name, String description, EventLocation location,LocalDateTime date, XOrganizer organizer, Set<XAttendee> attendees) {
+    public XEvent(String name, String description, XOrganizer organizer) {
         this.name = name;
         this.description = description;
-        this.date= date;
-        this.location = location;
         this.organizer = organizer;
-        this.attendees = attendees;
     }
 
-    public XEvent(String name, LocalDateTime date, String description, EventLocation location) {
+    public XEvent(String name, String description, XEventLocation location) {
         this.name = name;
-        this.date = date;
         this.description = description;
-        this.location = location;
+        this.addEventLocation(location);
     }
 
-    public void addAttendee(XAttendee attendee){
-        this.attendees.add(attendee);
+    public XEvent(String name, String description, XLocation newLocation, XOrganizer xOrganizer) {
+    }
+
+
+    public void addEventLocation(XEventLocation el){
+        this.getEventLocations().add(el);
+    }
+    public void addComment(XComment comment) {
+        comments.add(comment);
+    }
+
+    public void addLike(XUser user) {
+        likedByUsers.add(user);
     }
 }
