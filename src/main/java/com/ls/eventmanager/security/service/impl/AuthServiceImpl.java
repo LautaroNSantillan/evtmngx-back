@@ -24,9 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .signupDate(user.getSignupDate())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .build();
 
         LoginResponse response = new LoginResponse(loggedInUser, jwtToken);
@@ -79,12 +77,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<?> register(RegisterRequest registerRequest) {
+        Set<XRoles> attendeeRoles = new HashSet<>();
+        attendeeRoles.add(XRoles.ATTENDEE);
         XUser user = XUser.builder()
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .firstname(registerRequest.getFirstname())
                 .lastname(registerRequest.getLastname())
-                .role(XRoles.ATTENDEE)
+                .roles(  attendeeRoles)
                 .build();
 
         xUserRepository.save(user);
@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .signupDate(user.getSignupDate())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .build();
 
         return ResponseEntity.ok(createdUserDTO);

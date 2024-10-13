@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 //Evtmngx
 @SpringBootApplication
 public class Application {
@@ -34,11 +37,26 @@ public class Application {
 									  XPostRepository xPostRepository,XLocationRepository xLocationRepository,
 									  XEventLocationRepository xEventLocationRepository){
 		return args ->{
+			Set<XRoles> attendeeRoles = new HashSet<>();
+			attendeeRoles.add(XRoles.ATTENDEE);
 
-			XAttendee attendee = new XAttendee("attendee", "lastname","username1",passwordEncoder.encode("1234"), XRoles.ATTENDEE);
+			Set<XRoles> organizerRoles = new HashSet<>();
+			organizerRoles.add(XRoles.ATTENDEE);
+			organizerRoles.add(XRoles.ORGANIZER);
+
+			Set<XRoles> adminRoles = new HashSet<>();
+			adminRoles.add(XRoles.ATTENDEE);
+			adminRoles.add(XRoles.ORGANIZER);
+			adminRoles.add(XRoles.ADMIN);
+
+			XAttendee attendee = new XAttendee("attendee", "lastname","username1",passwordEncoder.encode("1234"), attendeeRoles);
 			xAttendeeRepository.save(attendee);
-			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", passwordEncoder.encode("1234"),XRoles.ORGANIZER) ;
+			XAttendee attendee2 = new XAttendee("attendee", "lastname","username1",passwordEncoder.encode("1234"), adminRoles);
+			xAttendeeRepository.save(attendee);
+			XOrganizer organizer = new XOrganizer("organizer", "lastname","username2", passwordEncoder.encode("1234"),organizerRoles) ;
 			xOrganizerRepository.save(organizer);
+			XUser admin = new XUser("admin", "admin", "admin", passwordEncoder.encode("admin"), adminRoles);
+			xUserRepository.save(admin);
 
 			for (int i = 1; i <= 20; i++) {
 				String eventName = "Event " + i;

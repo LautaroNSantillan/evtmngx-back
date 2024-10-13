@@ -20,7 +20,7 @@ public class DTOUser {
     private String username;
     private LocalDate signupDate;
     private Set<DTOComment> authoredComments;
-    private XRoles role;
+    private Set<XRoles> roles;
     private Set<DTOEventLocation> attendedEvents = new HashSet<>();
     
     public DTOUser(XUser user) {
@@ -32,7 +32,7 @@ public class DTOUser {
         this.authoredComments = user.getAuthoredComments().stream()
                 .map(DTOComment::new)
                 .collect(Collectors.toSet());
-        this.role = user.getRole();
+        this.roles = user.getRoles();
         this.attendedEvents = user.getAttendedEvents().stream()
                 .map(DTOEventLocation::new)
                 .collect(Collectors.toSet());
@@ -44,6 +44,6 @@ public class DTOUser {
         this.username = username;
     }
 
-    public <R> DTOUser(UUID id, String firstname, String lastname, String username, LocalDate signupDate, R r, XRoles role) {
+    public <R> DTOUser(UUID id, String firstname, String lastname, String username, LocalDate signupDate, R r, Set<XRoles> role) {
     }
 }

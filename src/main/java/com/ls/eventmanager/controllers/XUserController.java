@@ -61,7 +61,12 @@ public class XUserController {
 
     @GetMapping
     public List<DTOUser> findAllUsers(){
-        return xUserRepository.findByRoleNot(XRoles.ADMIN).stream().map(DTOUser::new).collect(Collectors.toList());
+        return xUserRepository.findByRolesNotContaining(XRoles.ADMIN).stream().map(DTOUser::new).collect(Collectors.toList());
+    }
+
+    @GetMapping("/all")
+    public List<DTOUser> findAllUsersAndAdmins(){
+        return xUserRepository.findAll().stream().map(DTOUser::new).collect(Collectors.toList());
     }
 
     private XUser convertToUser(DTOUser dtoUser) {
@@ -71,10 +76,22 @@ public class XUserController {
                 dtoUser.getUsername()
         );
     }
+    @PostMapping("/updateRole/{id}")//should be put but cors wont let me
+    public ResponseEntity<String> updateUserRole(
+            @PathVariable("id") UUID id){
+        try {
+            userService.toggleAdmin(id);
+            return ResponseEntity.ok("User role updated successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user role");
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<DTOUser> getUserById(@PathVariable("id") UUID id) {
-        Optional<XUser> user = xUserRepository.findByIdAndRoleNot(id, XRoles.ADMIN);
+        Optional<XUser> user = xUserRepository.findById(id);
         if (user.isPresent()) {
             return ResponseEntity.ok(new DTOUser(user.get()));
         } else {

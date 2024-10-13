@@ -25,8 +25,8 @@ public class XUser {
     private String lastname;
     private String username;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private XRoles role;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<XRoles> roles;
     private LocalDate signupDate = LocalDate.now();
     @ManyToMany(mappedBy = "attendees")
     private Set<XEventLocation> attendedEvents = new HashSet<>();
@@ -36,18 +36,18 @@ public class XUser {
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<XEvent> likedEvents = new HashSet<>();
 
-    public XUser(String firstname, String lastname, String username, String password, XRoles role) {
+    public XUser(String firstname, String lastname, String username, String password, Set<XRoles> role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
-        this.role = role;
+        this.roles = role;
         this.password=password;
     }
-    public XUser(String firstname, String lastname, String username, XRoles role) {
+    public XUser(String firstname, String lastname, String username, Set<XRoles> role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
-        this.role = role;
+        this.roles = role;
     }
 
     public XUser(DTOUser organizer) {

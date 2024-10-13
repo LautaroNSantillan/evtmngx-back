@@ -27,12 +27,12 @@ public class XAdminController {
 
     @GetMapping
     public List<DTOUser> getAllAdmins(){
-        return xUserRepository.findByRole(XRoles.ADMIN).stream().map(DTOUser::new).collect(Collectors.toList());
+        return xUserRepository.findByRolesContaining(XRoles.ADMIN).stream().map(DTOUser::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DTOUser> getAdminById(@PathVariable UUID id) {
-        Optional<XUser> admin = xUserRepository.findByIdAndRole(id, XRoles.ADMIN);
+        Optional<XUser> admin = xUserRepository.findByIdAndRolesContaining(id, XRoles.ADMIN);
         if (admin.isPresent()) {
             return ResponseEntity.ok(new DTOUser(admin.get()));
         } else {

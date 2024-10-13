@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface XUserService {
     void updateUser(UUID id, String firstname, String lastname);
+    void toggleAdmin(UUID id);
+
 }

@@ -20,6 +20,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         XUser userEntity = xUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return new User(userEntity.getUsername(), userEntity.getPassword(), AuthorityUtils.createAuthorityList(userEntity.getRole().toString()));
+
+
+        String[] roles = userEntity.getRoles().stream()
+                .map(Enum::name)
+                .toArray(String[]::new);
+
+        return new User(userEntity.getUsername(), userEntity.getPassword(), AuthorityUtils.createAuthorityList(roles));
     }
+
 }

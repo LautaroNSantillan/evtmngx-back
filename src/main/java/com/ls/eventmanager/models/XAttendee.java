@@ -15,8 +15,8 @@ import java.util.UUID;
 @Entity
 public class XAttendee extends XUser{
 
-    public XAttendee(String firstName, String lastName, String username,String password, XRoles role) {
-        super(firstName, lastName, username,password, role);
+    public XAttendee(String firstName, String lastName, String username,String password, Set<XRoles> roles) {
+        super(firstName, lastName, username,password, roles);
     }
 
 }

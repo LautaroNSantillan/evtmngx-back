@@ -14,7 +14,7 @@ public class DTOOrganizer extends DTOUser{
     private Set<DTOEvent> organizedEvents;
 
     public DTOOrganizer(XOrganizer organizer) {
-        super(organizer.getId(), organizer.getFirstname(), organizer.getLastname(), organizer.getUsername(), organizer.getSignupDate(), null, organizer.getRole());
+        super(organizer.getId(), organizer.getFirstname(), organizer.getLastname(), organizer.getUsername(), organizer.getSignupDate(), null, organizer.getRoles());
         this.organizedEvents = null;
     }
 }

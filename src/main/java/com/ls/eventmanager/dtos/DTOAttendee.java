@@ -15,7 +15,7 @@ public class DTOAttendee extends DTOUser {
     private Set<DTOEventLocation> attendedEvents = new HashSet<>();
     public DTOAttendee(XAttendee attendee) {
         super(attendee.getId(), attendee.getFirstname(), attendee.getLastname(), attendee.getUsername(), attendee.getSignupDate(),
-                attendee.getAuthoredComments() != null ? attendee.getAuthoredComments().stream().map(DTOComment::new).collect(Collectors.toSet()) : null, attendee.getRole());
+                attendee.getAuthoredComments().stream().map(DTOComment::new).collect(Collectors.toSet()), attendee.getRoles());
 
         if (attendee.getAttendedEvents() != null) {
             this.attendedEvents = attendee.getAttendedEvents().stream()

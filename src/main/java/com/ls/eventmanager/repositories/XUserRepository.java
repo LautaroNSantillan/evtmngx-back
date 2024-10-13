@@ -12,10 +12,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface XUserRepository extends JpaRepository<XUser, UUID> {
-    List<XUser> findByRole(XRoles role);
-    Optional<XUser> findByIdAndRole(UUID id, XRoles role);
-    List<XUser> findByRoleNot(XRoles role);
-    Optional<XUser> findByIdAndRoleNot(UUID id, XRoles role);
+    List<XUser> findByRolesContaining(XRoles role);
+    Optional<XUser> findByIdAndRolesContaining(UUID id, XRoles role);
+    List<XUser> findByRolesNotContaining(XRoles role);
+    Optional<XUser> findByIdAndRolesNotContaining(UUID id, XRoles role);
     Optional<XUser> findByUsername(String username);
     @Modifying()
     @Query("UPDATE XUser u SET u.firstname = :firstname, u.lastname = :lastname WHERE u.id = :id")
