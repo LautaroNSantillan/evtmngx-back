@@ -14,3 +14,5 @@ This was built using Java Spring Boot and provides the core API for managing use
 
 ## :anchor:Used:
 ![technologies](https://raw.githubusercontent.com/LautaroNSantillan/evtmngx-back/refs/heads/security/src/main/resources/static/img.png)
+
+:open_file_folder: [Front end Respository](https://github.com/LautaroNSantillan/evtmngx-front)
